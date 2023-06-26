@@ -1,12 +1,11 @@
 import React, { useCallback, useState } from "react"
-import { FlatList, Keyboard, Modal, SafeAreaView, TouchableWithoutFeedback, View, Text, Image } from "react-native"
+import { FlatList, Keyboard, Modal, SafeAreaView, TouchableWithoutFeedback, View, Text, Image, TouchableOpacity } from "react-native"
 import SearchBar from "../../Components/SearchBar";
 import TopView from "../../Components/TopView";
 import HistoryItem from "../../Components/HistoryItem";
 import { clearLocalAll, getAllLocalKeys, getLocalData } from "../../Utils/UsefulFunctions";
 import { useFocusEffect } from "@react-navigation/native";
 import { styles } from "./styles";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const History = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);

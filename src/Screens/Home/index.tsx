@@ -4,6 +4,7 @@ import {
     FlatList,
     Image,
     SafeAreaView,
+    ScrollView,
     Text,
     TouchableOpacity,
     View,
@@ -14,7 +15,6 @@ import { customSlider } from "../../Components/Slider";
 import { activityTypes, axiosInstance } from "../../Utils/Constants";
 import TypeItem from "../../Components/TypeItem";
 import TopView from "../../Components/TopView";
-import axios from "axios";
 
 const Home = ({ navigation }) => {
     const [type, setType] = useState<string>("All");
@@ -32,7 +32,7 @@ const Home = ({ navigation }) => {
         } else {
             query = `/api/activity?price=${price}&accessibility=${accesibility}&participants=${participants}`
         }
-        axios.create({ baseURL: "http://www.boredapi.com" }).get(query).then((response) => {
+        axiosInstance.get(query).then((response) => {
             setActivity(response.data)
         }).finally(() => {
             setLoading(false)
@@ -67,7 +67,10 @@ const Home = ({ navigation }) => {
                 />
             </TopView>
 
-            <View style={styles.contents}>
+            <ScrollView 
+            contentContainerStyle={{paddingBottom: 120}}
+            style={styles.contents}
+            >
                 <TouchableOpacity
                     disabled={!activity?.activity}
                     onPress={() => {
@@ -131,7 +134,7 @@ const Home = ({ navigation }) => {
                         </Text>
                     </View>
                 </TouchableOpacity>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }
