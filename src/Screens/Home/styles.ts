@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
         fontFamily: "Poppins",
         fontSize: 24,
         lineHeight: 36,
+        color: "black"
     },
     boredImage: {
         borderRadius: 50,
@@ -29,6 +30,7 @@ export const styles = StyleSheet.create({
         lineHeight: 22.5,
         fontSize: 15,
         fontWeight: "500",
+        color: "black"
     },
     searchImage: {
         width: 40,
@@ -54,14 +56,15 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: "Poppins",
         fontWeight: "500",
-        maxWidth: 280
+        maxWidth: 280,
+        color: "black"
     },
     activitySubtitle: {
         marginTop: 2,
         fontSize: 13,
         fontFamily: "Poppins",
         fontWeight: "400",
-        color: "rgba(113, 113, 113, 1)"
+        color: "rgba(113, 113, 113, 1)",
     },
     vectorImage: {
         width: 16,
@@ -98,7 +101,8 @@ export const styles = StyleSheet.create({
     randomButtonText: {
         fontSize: 16,
         fontFamily: "Poppins",
-        fontWeight: "600"
+        fontWeight: "600",
+        color: "black"
     },
     activityButtonText: {
         color: "white",

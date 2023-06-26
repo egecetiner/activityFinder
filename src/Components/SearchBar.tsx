@@ -26,6 +26,7 @@ const SearchBar = (props) => {
                     }}
                     value={props.searchText}
                     placeholder="Search activity"
+                    placeholderTextColor={"black"}
                 />
                 {props.searchText === "" ? null :
                     <TouchableOpacity
@@ -88,6 +89,7 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: "Poppins",
         fontWeight: "400",
+        color: "black",
     },
     cancelText: {
         fontFamily: "Poppins",

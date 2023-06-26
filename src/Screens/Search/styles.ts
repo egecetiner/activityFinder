@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
         fontFamily: "Poppins",
         fontSize: 24,
         lineHeight: 36,
+        color: "black"
     },
     topView: {
         borderBottomWidth: 1,
@@ -44,7 +45,8 @@ export const styles = StyleSheet.create({
         fontFamily: "Poppins",
         fontWeight: "500",
         fontSize: 16,
-        lineHeight: 20
+        lineHeight: 20,
+        color: "black"
     },
     activityTextContainer: {
         flexDirection: "row",

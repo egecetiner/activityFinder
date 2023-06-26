@@ -37,7 +37,8 @@ export const styles = StyleSheet.create({
         fontWeight: "500",
         fontSize: 16,
         lineHeight: 22,
-        marginTop: 12
+        marginTop: 12,
+        color: "black"
     },
     modalSubtitle: {
         fontFamily: "Poppins",
@@ -74,7 +75,8 @@ export const styles = StyleSheet.create({
     cancelButtonText: {
         fontSize: 16,
         fontFamily: "Poppins",
-        fontWeight: "600"
+        fontWeight: "600",
+        color: "black"
     },
     okButtonText: {
         color: "white",

@@ -1,7 +1,7 @@
 import React from "react"
+import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from '@react-navigation/native';
-import History from "../Screens/History";
 import { historyOptions, homeOptions, searchOptions, tabBarOptions } from "./ScreenOptions";
 import { HistoryStack, HomeStack, SearchStack } from "./Stacks";
 

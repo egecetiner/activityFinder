@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
         marginBottom: 18,
         fontFamily: "Poppins",
         fontWeight: "500",
-        fontSize: 16
+        fontSize: 16,
+        color: "black"
     },
     sliderThumb: {
         shadowColor: "#000",
@@ -37,11 +38,12 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.3,
         shadowRadius: 1.00,
-        elevation: 1
+        elevation: 5
     },
     aboveThumb: {
         position: "absolute",
         bottom: -5,
-        right: -10
+        right: -10,
+        color: "black"
     },
 })

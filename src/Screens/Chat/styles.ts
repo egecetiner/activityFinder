@@ -28,7 +28,8 @@ export const styles = StyleSheet.create({
         fontFamily: "Poppins",
         fontWeight: "400",
         fontSize: 14.5,
-        lineHeight: 20
+        lineHeight: 20,
+        color: "black"
     },
     answer: {
         flexDirection: "row",

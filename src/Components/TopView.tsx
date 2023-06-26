@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     text: {
+        color: "black",
         fontWeight: "700",
         fontFamily: "Poppins",
         fontSize: 24,
