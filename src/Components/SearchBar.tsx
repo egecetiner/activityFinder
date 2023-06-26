@@ -26,7 +26,6 @@ const SearchBar = (props) => {
                     }}
                     value={props.searchText}
                     placeholder="Search activity"
-                    placeholderTextColor={"black"}
                 />
                 {props.searchText === "" ? null :
                     <TouchableOpacity
@@ -104,7 +103,8 @@ export const styles = StyleSheet.create({
     },
     deleteIcon: {
         width: 14,
-        height: 14
+        height: 14,
+        borderRadius: 20
     },
     cancelContainer: {
         marginLeft: 8,
