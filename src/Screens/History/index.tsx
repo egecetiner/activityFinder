@@ -1,23 +1,31 @@
-import React, { useCallback, useState } from "react"
-import { FlatList, Keyboard, Modal, SafeAreaView, TouchableWithoutFeedback, View, Text, Image, TouchableOpacity } from "react-native"
+import React, { useCallback, useContext } from "react"
+import { FlatList, Keyboard, SafeAreaView, TouchableWithoutFeedback } from "react-native"
 import SearchBar from "../../Components/SearchBar";
 import TopView from "../../Components/TopView";
 import HistoryItem from "../../Components/HistoryItem";
-import { clearLocalAll, getAllLocalKeys, getLocalData } from "../../Utils/UsefulFunctions";
+import { getAllLocalKeys, getLocalData } from "../../Utils/UsefulFunctions";
 import { useFocusEffect } from "@react-navigation/native";
 import { styles } from "./styles";
+import { AppContext } from "../../Context/AppContext";
+import HistoryModal from "../../Components/HistoryModal";
 
 const History = ({ navigation }) => {
-    const [modalVisible, setModalVisible] = useState(false);
-    const [searchText, setSearchText] = useState<any>("");
-    const [filteredData, setFilteredData] = useState<any>();
-    const [focus, setFocus] = useState<boolean>(false);
-    const [localData, setLocalData] = useState<any>([]);
+    const { searchTextHistory,
+        setSearchTextHistory,
+        filteredDataHistory,
+        setFilteredDataHistory,
+        focusHistory,
+        setFocusHistory,
+        modalVisibleHistory,
+        setModalVisibleHistory,
+        localDataHistory,
+        setLocalDataHistory
+    } = useContext(AppContext);
 
     useFocusEffect(
         useCallback(() => {
             fetchAllLocalData()
-        }, [])
+        }, [modalVisibleHistory])
     )
 
     const fetchAllLocalData = async () => {
@@ -29,7 +37,7 @@ const History = ({ navigation }) => {
                 })
             })
         }).finally(() => {
-            setLocalData(allData)
+            setLocalDataHistory(allData)
         })
     }
 
@@ -37,86 +45,43 @@ const History = ({ navigation }) => {
         <SafeAreaView>
             <TouchableWithoutFeedback onPress={() => {
                 Keyboard.dismiss()
-                if (searchText === "") {
-                    setFocus(false)
+                if (searchTextHistory === "") {
+                    setFocusHistory(false)
                 }
             }}>
                 <TopView
                     text={"History"}
                     buttonImage={require("../../Assets/Trash.png")}
                     onPressRight={
-                        // clearLocalAll
-                        () => setModalVisible(true)
+                        () => setModalVisibleHistory(true)
                     }
                 >
                     <SearchBar
-                        initialData={localData}
-                        searchText={searchText}
-                        setSearchText={setSearchText}
-                        setFilteredData={setFilteredData}
-                        focus={focus}
-                        setFocus={setFocus}
+                        initialData={localDataHistory}
+                        searchText={searchTextHistory}
+                        setSearchText={setSearchTextHistory}
+                        setFilteredData={setFilteredDataHistory}
+                        focus={focusHistory}
+                        setFocus={setFocusHistory}
                     />
                 </TopView>
             </TouchableWithoutFeedback>
             <FlatList
                 onScroll={() => {
                     Keyboard.dismiss()
-                    if (searchText === "") {
-                        setFocus(false)
+                    if (searchTextHistory === "") {
+                        setFocusHistory(false)
                     }
                 }}
                 contentContainerStyle={styles.flatlistContent}
                 style={styles.flatList}
-                data={filteredData ?? localData}
+                data={filteredDataHistory ?? localDataHistory}
                 renderItem={({ item }) => <HistoryItem
                     item={item}
                     navigation={navigation}
                 />}
             />
-            <Modal
-                transparent={true}
-                animationType="fade"
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(false);
-                }}>
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Image
-                            style={styles.trashIcon}
-                            source={require("../../Assets/Trash.png")}
-                        />
-                        <Text style={styles.modalTitle}>Delete history</Text>
-                        <Text style={styles.modalSubtitle}>
-                            Are you sure to remove all history items, this action is irreversible!
-                        </Text>
-                        <View style={styles.buttonContainer}>
-                            <TouchableOpacity
-                                style={styles.cancelButton}
-                                onPress={() => setModalVisible(false)}
-                            >
-                                <Text style={styles.cancelButtonText}>
-                                    Cancel
-                                </Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                onPress={async () => {
-                                    await clearLocalAll()
-                                    await fetchAllLocalData()
-                                    setModalVisible(false)
-                                }}
-                                style={styles.okButton}
-                            >
-                                <Text style={styles.okButtonText}>
-                                    Delete
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-            </Modal>
+            <HistoryModal fetchData={fetchAllLocalData} />
         </SafeAreaView>
     )
 }

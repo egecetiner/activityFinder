@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useContext } from "react"
 import {
     ActivityIndicator,
     FlatList,
@@ -15,35 +15,44 @@ import { customSlider } from "../../Components/Slider";
 import { activityTypes, axiosInstance } from "../../Utils/Constants";
 import TypeItem from "../../Components/TypeItem";
 import TopView from "../../Components/TopView";
+import { AppContext } from "../../Context/AppContext";
 
 const Home = ({ navigation }) => {
-    const [type, setType] = useState<string>("All");
-    const [loading, setLoading] = useState(false);
-    const [price, setPrice] = useState<any>(0);
-    const [participants, setParticipants] = useState<any>(0);
-    const [accesibility, setAccesibility] = useState<any>(0);
-    const [activity, setActivity] = useState<any>(null);
+    const { typeHome,
+        setTypeHome,
+        loadingHome,
+        setLoadingHome,
+        priceHome,
+        setPriceHome,
+        participantsHome,
+        setParticipantsHome,
+        accesibilityHome,
+        setAccesibilityHome,
+        activityHome,
+        setActivityHome
+    } = useContext(AppContext);
+  
 
     const onPressActivity = () => {
-        setLoading(true)
+        setLoadingHome(true)
         let query;
-        if (type !== "All") {
-            query = `/api/activity?type=${type?.toLowerCase()}&price=${price}&accessibility=${accesibility}&participants=${participants}`
+        if (typeHome !== "All") {
+            query = `/api/activity?type=${typeHome?.toLowerCase()}&price=${priceHome}&accessibility=${accesibilityHome}&participants=${participantsHome}`
         } else {
-            query = `/api/activity?price=${price}&accessibility=${accesibility}&participants=${participants}`
+            query = `/api/activity?price=${priceHome}&accessibility=${accesibilityHome}&participants=${participantsHome}`
         }
         axiosInstance.get(query).then((response) => {
-            setActivity(response.data)
+            setActivityHome(response.data)
         }).finally(() => {
-            setLoading(false)
+            setLoadingHome(false)
         })
     }
 
     const onPressRandom = () => {
-        setPrice(getRandomDecimalVal())
-        setAccesibility(getRandomDecimalVal())
-        setParticipants(getRandomValwithMax(4))
-        setType(activityTypes[getRandomValwithMax(10)])
+        setPriceHome(getRandomDecimalVal() as any)
+        setAccesibilityHome(getRandomDecimalVal() as any)
+        setParticipantsHome(getRandomValwithMax(4))
+        setTypeHome(activityTypes[getRandomValwithMax(10)])
     }
 
     return (
@@ -60,8 +69,8 @@ const Home = ({ navigation }) => {
                     renderItem={({ item }) =>
                         <TypeItem
                             item={item}
-                            setType={setType}
-                            type={type}
+                            setType={setTypeHome}
+                            type={typeHome}
                         />
                     }
                 />
@@ -72,27 +81,27 @@ const Home = ({ navigation }) => {
             style={styles.contents}
             >
                 <TouchableOpacity
-                    disabled={!activity?.activity}
+                    disabled={!activityHome?.activity}
                     onPress={() => {
                         navigation.navigate("Chat", {
-                            activity: activity.activity,
-                            type: activity.type
+                            activity: activityHome.activity,
+                            type: activityHome.type
                         })
                     }}
                     style={styles.activityContainer}>
                     <View style={styles.searchImageContainer}>
-                        {getActivityImage(loading, activity)}
+                        {getActivityImage(loadingHome, activityHome)}
                     </View>
                     <View style={styles.activityTexts}>
                         <Text style={styles.activityTitle}>
-                            {getActivityTitle(activity, loading)}
+                            {getActivityTitle(activityHome, loadingHome)}
                         </Text>
                         <Text style={styles.activitySubtitle}>
-                            {getActivitySubtitle(activity, loading)}
+                            {getActivitySubtitle(activityHome, loadingHome)}
                         </Text>
                     </View>
                     {
-                        activity?.activity ?
+                        activityHome?.activity ?
                             <Image
                                 style={styles.arrowIcon}
                                 source={require("../../Assets/DarkArrow.png")}
@@ -100,9 +109,9 @@ const Home = ({ navigation }) => {
                     }
                 </TouchableOpacity>
 
-                {customSlider("Price", 1, price, setPrice)}
-                {customSlider("Participants", 0, participants, setParticipants, 3)}
-                {customSlider("Accesibility", 1, accesibility, setAccesibility)}
+                {customSlider("Price", 1, priceHome, setPriceHome)}
+                {customSlider("Participants", 0, participantsHome, setParticipantsHome, 3)}
+                {customSlider("Accesibility", 1, accesibilityHome, setAccesibilityHome)}
 
                 <TouchableOpacity
                     style={styles.randomButtonContainer}
@@ -121,16 +130,16 @@ const Home = ({ navigation }) => {
 
                 <TouchableOpacity
                     onPress={onPressActivity}
-                    disabled={loading}
+                    disabled={loadingHome}
                     style={[
                         styles.activityButton,
-                        { backgroundColor: loading ? "rgba(153, 154, 156, 1)" : "black" }
+                        { backgroundColor: loadingHome? "rgba(153, 154, 156, 1)" : "black" }
                     ]}
                 >
                     <View style={{ flexDirection: "row" }}>
-                        {loading ? <ActivityIndicator color={"rgba(229, 229, 234, 1)"} style={{ marginRight: 8 }} /> : null}
+                        {loadingHome ? <ActivityIndicator color={"rgba(229, 229, 234, 1)"} style={{ marginRight: 8 }} /> : null}
                         <Text style={styles.activityButtonText}>
-                            {loading ? "Finding Activity" : 'Find Activity'}
+                            {loadingHome ? "Finding Activity" : 'Find Activity'}
                         </Text>
                     </View>
                 </TouchableOpacity>
